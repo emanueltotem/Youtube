@@ -17,6 +17,7 @@ class Youtube
         'categories.list' => 'https://www.googleapis.com/youtube/v3/videoCategories',
         'videos.list' => 'https://www.googleapis.com/youtube/v3/videos',
         'search.list' => 'https://www.googleapis.com/youtube/v3/search',
+        'captions.list' => 'https://www.googleapis.com/youtube/v3/captions',
         'channels.list' => 'https://www.googleapis.com/youtube/v3/channels',
         'playlists.list' => 'https://www.googleapis.com/youtube/v3/playlists',
         'playlistItems.list' => 'https://www.googleapis.com/youtube/v3/playlistItems',
@@ -167,6 +168,29 @@ class Youtube
         $apiData = $this->api_get($API_URL, $params);
 
         if (is_array($vId)) {
+            return $this->decodeMultiple($apiData);
+        }
+
+        return $this->decodeSingle($apiData);
+    }
+
+    /**
+     * @param $id
+     * @param $part
+     * @return array
+     * @throws \Exception
+     */
+    public function getVideoCaption($vId, $part = ['id', 'snippet'])
+    {
+        $API_URL = $this->getApi('captions.list');
+        $params = [
+            'id' => is_array($id) ? implode(',', $id) : $id,
+            'part' => implode(',', $part),
+        ];
+
+        $apiData = $this->api_get($API_URL, $params);
+
+        if (is_array($id)) {
             return $this->decodeMultiple($apiData);
         }
 
