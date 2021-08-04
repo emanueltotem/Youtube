@@ -175,7 +175,7 @@ class Youtube
     }
 
     /**
-     * @param $id
+     * @param $vId
      * @param $part
      * @return array
      * @throws \Exception
@@ -184,13 +184,13 @@ class Youtube
     {
         $API_URL = $this->getApi('captions.list');
         $params = [
-            'id' => is_array($id) ? implode(',', $id) : $id,
+            'id' => is_array($vId) ? implode(',', $vId) : $vId,
             'part' => implode(',', $part),
         ];
 
         $apiData = $this->api_get($API_URL, $params);
 
-        if (is_array($id)) {
+        if (is_array($vId)) {
             return $this->decodeMultiple($apiData);
         }
 
